@@ -1,0 +1,49 @@
+import { computed, setProperties } from "@ember/object";
+import { classNames } from "@ember-decorators/component";
+import { allLevels, buttonDetails } from "discourse/lib/notification-levels";
+import DropdownSelectBoxComponent from "discourse/select-kit/components/dropdown-select-box";
+import NotificationsButtonRow from "discourse/select-kit/components/notifications-button/notifications-button-row";
+import {
+  pluginApiIdentifiers,
+  selectKitOptions,
+} from "discourse/select-kit/components/select-kit";
+import { i18n } from "discourse-i18n";
+
+@selectKitOptions({
+  autoFilterable: false,
+  filterable: false,
+  i18nPrefix: "",
+  i18nPostfix: "",
+})
+@pluginApiIdentifiers("notifications-button")
+@classNames("notifications-button")
+export default class FollowNotificationsDropdown extends DropdownSelectBoxComponent {
+  content = allLevels;
+  nameProperty = "key";
+
+  modifyComponentForRow() {
+    return NotificationsButtonRow;
+  }
+
+  modifySelection(content) {
+    content = content || {};
+    const { i18nPrefix, i18nPostfix } = this.selectKit.options;
+    const title = i18n(
+      `${i18nPrefix}.${this.buttonForValue.key}${i18nPostfix}.title`
+    );
+    const label = i18n(
+      `${i18nPrefix}.${this.buttonForValue.key}${i18nPostfix}.label`
+    );
+    setProperties(content, {
+      title,
+      label,
+      icon: this.buttonForValue.icon,
+    });
+    return content;
+  }
+
+  @computed("value")
+  get buttonForValue() {
+    return buttonDetails(this.value);
+  }
+}
