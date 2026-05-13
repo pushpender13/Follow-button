@@ -2,6 +2,7 @@ en:
   theme_metadata:
     description: "A theme component to add follow button for categories"
   follow_category_button_title: "Follow"
+  unfollow_category_button_title: "Unfollow"
   category_options:
     notifications:
       title: "change notification level for this category"
