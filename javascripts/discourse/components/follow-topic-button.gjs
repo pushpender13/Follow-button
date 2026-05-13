@@ -3,6 +3,7 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
+import { ajax } from "discourse/lib/ajax";
 import { NotificationLevels } from "discourse/lib/notification-levels";
 import Composer from "discourse/models/composer";
 
@@ -31,7 +32,12 @@ export default class FollowTopicButton extends Component {
         ? NotificationLevels.REGULAR
         : NotificationLevels.WATCHING;
 
-      await this.topic.details.updateNotificationLevel(targetLevel);
+      await ajax(`/t/${this.topic.id}/notifications.json`, {
+        type: "POST",
+        data: { notification_level: targetLevel },
+      });
+
+      this.topic.details.set("notification_level", targetLevel);
     } finally {
       this.isLoading = false;
     }
