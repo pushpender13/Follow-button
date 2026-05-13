@@ -17,9 +17,26 @@ body:not(.tags-page) .navigation-controls {
   }
 }
 
-.follow-topic-actions .follow-topic-btn, .follow-topic-actions .reply-topic-btn {
-    background: #002D73;
-    padding: 10px 0px 10px 0px;
-    border-radius: 16px;
-    color: white;
+.follow-topic-actions .btn {
+  background: #002d73 !important;
+  border-color: #002d73 !important;
+  border-radius: 16px;
+  color: #fff !important;
+  transition: none !important;
+}
+
+.follow-topic-actions .btn:hover,
+.follow-topic-actions .btn:focus,
+.follow-topic-actions .btn:active {
+  background: #002d73 !important;
+  border-color: #002d73 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.follow-topic-actions .btn svg,
+.follow-topic-actions .btn .d-icon,
+.follow-topic-actions .btn svg use {
+  color: #fff !important;
+  fill: #fff !important;
 }
