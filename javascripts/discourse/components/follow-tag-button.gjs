@@ -3,18 +3,18 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
-import { ajax } from "discourse/lib/ajax";
 import { NotificationLevels } from "discourse/lib/notification-levels";
 import { i18n } from "discourse-i18n";
 
 export default class FollowTagButton extends Component {
   @service currentUser;
-  @tracked notificationLevel = null;
+  @service store;
+  @tracked tagNotification = null;
   @tracked isLoading = false;
 
   constructor(owner, args) {
     super(owner, args);
-    this.#loadNotificationLevel();
+    this.#loadTagNotification();
   }
 
   get tag() {
@@ -22,24 +22,28 @@ export default class FollowTagButton extends Component {
   }
 
   get isFollowing() {
-    return this.notificationLevel === NotificationLevels.WATCHING;
+    return (
+      this.tagNotification?.notification_level === NotificationLevels.WATCHING
+    );
   }
 
-  async #loadNotificationLevel() {
-    if (!this.tag?.name) {
+  async #loadTagNotification() {
+    if (!this.tag?.name || !this.currentUser) {
       return;
     }
     try {
-      const data = await ajax(`/tags/${this.tag.name}/notifications.json`);
-      this.notificationLevel = data.tag_notification?.notification_level;
+      this.tagNotification = await this.store.find(
+        "tagNotification",
+        this.tag.name
+      );
     } catch {
-      // non-critical, leave null
+      // non-critical
     }
   }
 
   @action
   async toggleFollow() {
-    if (!this.tag?.name || this.isLoading) {
+    if (!this.tag?.name || !this.tagNotification || this.isLoading) {
       return;
     }
 
@@ -49,12 +53,22 @@ export default class FollowTagButton extends Component {
         ? NotificationLevels.REGULAR
         : NotificationLevels.WATCHING;
 
-      await ajax(`/tags/${this.tag.name}/notifications.json`, {
-        type: "PUT",
-        data: { tag_notification: { notification_level: targetLevel } },
+      const response = await this.tagNotification.update({
+        notification_level: targetLevel,
       });
 
-      this.notificationLevel = targetLevel;
+      this.tagNotification.set("notification_level", targetLevel);
+
+      const payload = response.responseJson;
+      if (payload) {
+        this.currentUser.setProperties({
+          watched_tags: payload.watched_tags,
+          watching_first_post_tags: payload.watching_first_post_tags,
+          tracked_tags: payload.tracked_tags,
+          muted_tags: payload.muted_tags,
+          regular_tags: payload.regular_tags,
+        });
+      }
     } finally {
       this.isLoading = false;
     }
