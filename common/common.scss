@@ -4,6 +4,12 @@ body:not(.tags-page) .navigation-controls {
   }
 }
 
+.tags-page .navigation-controls {
+  .notifications-tracking-trigger-btn {
+    display: none;
+  }
+}
+
 .follow-topic-actions {
   display: flex;
   flex-direction: column;
@@ -39,4 +45,29 @@ body:not(.tags-page) .navigation-controls {
 .follow-topic-actions .btn svg use {
   color: #fff !important;
   fill: #fff !important;
+}
+
+.follow-category-button,
+.follow-tag-button {
+  background: #002d73 !important;
+  border-color: #002d73 !important;
+  border-radius: 16px;
+  color: #fff !important;
+  transition: none !important;
+
+  svg,
+  .d-icon,
+  svg use {
+    color: #fff !important;
+    fill: #fff !important;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: #002d73 !important;
+    border-color: #002d73 !important;
+    color: #fff !important;
+    box-shadow: none !important;
+  }
 }
