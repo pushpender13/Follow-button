@@ -16,3 +16,10 @@ body:not(.tags-page) .navigation-controls {
     justify-content: center;
   }
 }
+
+.follow-topic-actions .follow-topic-btn, .follow-topic-actions .reply-topic-btn {
+    background: #002D73;
+    padding: 10px 0px 10px 0px;
+    border-radius: 16px;
+    color: white;
+}
