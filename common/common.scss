@@ -1,0 +1,17 @@
+body:not(.tags-page) .navigation-controls {
+  .notifications-tracking-trigger-btn {
+    display: none;
+  }
+}
+
+.follow-btn {
+  .d-icon {
+    margin-right: 0.3em;
+  }
+
+  &.following {
+    .d-icon {
+      color: currentColor;
+    }
+  }
+}
