@@ -12,7 +12,7 @@ export default class FollowTopicButton extends Component {
   @tracked isLoading = false;
 
   get topic() {
-    return this.args.topic ?? this.args.outletArgs?.topic;
+    return this.args.topic;
   }
 
   get isFollowing() {

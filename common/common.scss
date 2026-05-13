@@ -4,22 +4,11 @@ body:not(.tags-page) .navigation-controls {
   }
 }
 
-// Follow + Reply buttons stacked to the right of the topic title
-#topic-title {
-  display: flex;
-  align-items: flex-start;
-
-  h1 {
-    flex: 1;
-  }
-}
-
 .follow-topic-actions {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-  margin-left: 1.5em;
-  flex-shrink: 0;
+  margin-bottom: 1em;
 
   .follow-topic-btn,
   .reply-topic-btn {

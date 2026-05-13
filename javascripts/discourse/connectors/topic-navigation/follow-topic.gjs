@@ -3,6 +3,6 @@ import FollowTopicButton from "../../components/follow-topic-button";
 
 export default class FollowTopic extends Component {
   <template>
-    <FollowTopicButton @topic={{@outletArgs.model}} />
+    <FollowTopicButton @topic={{@outletArgs.topic}} />
   </template>
 }
